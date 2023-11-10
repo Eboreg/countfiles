@@ -1,17 +1,11 @@
-#!/usr/bin/env python3
-
-import argparse
 import os
-from typing import List
 
 import colorama
 from colorama import Fore, Style
 
-from . import __version__
-
 
 class Node:
-    children: "List[Node]"
+    children: "list[Node]"
 
     def __init__(self, path: str):
         self.path = path.rstrip("/")
@@ -26,6 +20,9 @@ class Node:
                 elif entry.is_dir() and not entry.is_symlink():
                     self.add_child(entry.path)
 
+    def __lt__(self, other):
+        return isinstance(other, Node) and self.basename.lower() < other.basename.lower()
+
     def __repr__(self) -> str:
         return f"[{str(self.filecount).rjust(10)}]  {self.basename}"
 
@@ -34,7 +31,15 @@ class Node:
         self.filecount += child.filecount
         self.children.append(child)
 
-    def print(self, max_depth=None, min_filecount=None, depth=0, prefix="", is_last_child=False, color=True):
+    def print(
+        self,
+        max_depth: int | None = None,
+        min_filecount: int | None = None,
+        depth: int = 0,
+        prefix: str = "",
+        is_last_child: bool = False,
+        color: bool = True,
+    ):
         if color and not depth:
             colorama.init()
 
@@ -72,41 +77,12 @@ class Node:
                 child_prefix = prefix + "    "
             else:
                 child_prefix = prefix + "│   "
-            for idx, child in enumerate(children):
+            for idx, child in enumerate(sorted(children)):
                 child.print(
                     max_depth=max_depth,
                     min_filecount=min_filecount,
                     depth=depth + 1,
                     prefix=child_prefix,
                     is_last_child=idx == len(children) - 1,
-                    color=color
+                    color=color,
                 )
-
-
-def cli():
-    parser = argparse.ArgumentParser(prog="countfiles", description="Show accumulated number of files per directory.")
-
-    parser.add_argument("path", type=str)
-    parser.add_argument(
-        "--max-depth", "-md", type=int,
-        help="Iterate all the way, but only show directories down to this depth."
-    )
-    parser.add_argument(
-        "--min-filecount", "-mfc", type=int,
-        help="Iterate all the way, but only show directories with this number of files or more."
-    )
-    parser.add_argument("--no-color", action="store_true")
-    parser.add_argument("--version", "-V", action="version", version="%(prog)s " + __version__)
-
-    args = parser.parse_args()
-
-    root = Node(args.path)
-    root.print(max_depth=args.max_depth, min_filecount=args.min_filecount, color=not args.no_color)
-
-    if args.max_depth or args.min_filecount:
-        print("")
-        print("* = one or more immediate subdirectories have been omitted")
-
-
-if __name__ == "__main__":
-    cli()

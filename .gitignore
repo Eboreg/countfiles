@@ -1,4 +1,6 @@
 **/__pycache__
 /.venv
 /build
-/*.egg-info
+**/*.egg-info
+/dist
+.mypy_cache
