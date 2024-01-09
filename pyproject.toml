@@ -18,7 +18,7 @@ description = "Recursively count files per directory."
 dynamic = ["version"]
 name = "countfiles"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.7"
 
 [project.scripts]
 countfiles = "countfiles.cli:cli"

@@ -5,20 +5,22 @@ Like `tree` on Linux, but for number of files.
 The basics:
 
 ```shell
-klaatu@gort-ubuntu:~/kod/countfiles$ countfiles -h
-usage: countfiles [-h] [--max-depth MAX_DEPTH] [--min-filecount MIN_FILECOUNT] [--no-color] [--version] path
+(.venv) klaatu@jacob:~/kod/countfiles$ countfiles -h
+usage: countfiles [-h] [--max-depth MAX_DEPTH] [--min-filecount MIN_FILECOUNT] [--sizes] [--count-dirs] [--no-color] [--version] [path]
 
 Show accumulated number of files per directory.
 
 positional arguments:
   path
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  --max-depth MAX_DEPTH, -md MAX_DEPTH
+  --max-depth MAX_DEPTH, -d MAX_DEPTH
                         Iterate all the way, but only show directories down to this depth.
-  --min-filecount MIN_FILECOUNT, -mfc MIN_FILECOUNT
+  --min-filecount MIN_FILECOUNT, -m MIN_FILECOUNT
                         Iterate all the way, but only show directories with this number of files or more.
+  --sizes, -s           Also show the total size of every directory.
+  --count-dirs, -c      Also include directories in the file counts.
   --no-color
   --version, -V         show program's version number and exit
 ```
@@ -26,213 +28,471 @@ optional arguments:
 Example output:
 
 ```shell
-klaatu@gort-ubuntu:~/kod/countfiles$ countfiles .
-[      1331]  .
-├── [         2]  build
-│   ├── [         2]  lib
-│   │   └── [         2]  countfiles
-│   └── [         0]  bdist.linux-x86_64
-├── [         2]  countfiles
-├── [         6]  countfiles.egg-info
-├── [        33]  .git
-│   ├── [         9]  objects
-│   │   ├── [         1]  67
-│   │   ├── [         1]  f2
-│   │   ├── [         1]  ec
-│   │   ├── [         1]  09
-│   │   ├── [         1]  fe
-│   │   ├── [         1]  ee
-│   │   ├── [         0]  pack
-│   │   ├── [         1]  17
-│   │   ├── [         1]  5a
-│   │   ├── [         0]  info
-│   │   └── [         1]  3d
-│   ├── [         0]  branches
-│   ├── [        12]  hooks
-│   ├── [         3]  logs
-│   │   └── [         2]  refs
-│   │       ├── [         1]  heads
-│   │       └── [         1]  remotes
-│   │           └── [         1]  origin
-│   ├── [         2]  refs
-│   │   ├── [         1]  heads
-│   │   ├── [         0]  tags
-│   │   └── [         1]  remotes
-│   │       └── [         1]  origin
-│   └── [         1]  info
-├── [         1]  __pycache__
-└── [      1281]  .venv
-    ├── [      1267]  lib
-    │   └── [      1267]  python3.9
-    │       └── [      1267]  site-packages
-    │           ├── [       249]  setuptools
-    │           │   ├── [        28]  _vendor
-    │           │   │   ├── [        22]  packaging
-    │           │   │   │   └── [        11]  __pycache__
-    │           │   │   └── [         3]  __pycache__
-    │           │   ├── [         2]  extern
-    │           │   │   └── [         1]  __pycache__
-    │           │   ├── [       108]  _distutils
-    │           │   │   ├── [        30]  __pycache__
-    │           │   │   └── [        48]  command
-    │           │   │       └── [        24]  __pycache__
-    │           │   ├── [        26]  __pycache__
-    │           │   └── [        51]  command
-    │           │       └── [        25]  __pycache__
-    │           ├── [       808]  pip
-    │           │   ├── [       515]  _vendor
-    │           │   │   ├── [        43]  distlib
-    │           │   │   │   ├── [        13]  __pycache__
-    │           │   │   │   └── [        11]  _backport
-    │           │   │   │       └── [         5]  __pycache__
-    │           │   │   ├── [        86]  chardet
-    │           │   │   │   ├── [         4]  cli
-    │           │   │   │   │   └── [         2]  __pycache__
-    │           │   │   │   ├── [        39]  __pycache__
-    │           │   │   │   └── [         4]  metadata
-    │           │   │   │       └── [         2]  __pycache__
-    │           │   │   ├── [        12]  colorama
-    │           │   │   │   └── [         6]  __pycache__
-    │           │   │   ├── [        66]  html5lib
-    │           │   │   │   ├── [        10]  treebuilders
-    │           │   │   │   │   └── [         5]  __pycache__
-    │           │   │   │   ├── [        16]  filters
-    │           │   │   │   │   └── [         8]  __pycache__
-    │           │   │   │   ├── [         6]  treeadapters
-    │           │   │   │   │   └── [         3]  __pycache__
-    │           │   │   │   ├── [         8]  __pycache__
-    │           │   │   │   ├── [        12]  treewalkers
-    │           │   │   │   │   └── [         6]  __pycache__
-    │           │   │   │   └── [         6]  _trie
-    │           │   │   │       └── [         3]  __pycache__
-    │           │   │   ├── [        22]  pep517
-    │           │   │   │   ├── [         4]  in_process
-    │           │   │   │   │   └── [         2]  __pycache__
-    │           │   │   │   └── [         9]  __pycache__
-    │           │   │   ├── [        36]  requests
-    │           │   │   │   └── [        18]  __pycache__
-    │           │   │   ├── [        10]  progress
-    │           │   │   │   └── [         5]  __pycache__
-    │           │   │   ├── [        14]  resolvelib
-    │           │   │   │   ├── [         5]  __pycache__
-    │           │   │   │   └── [         4]  compat
-    │           │   │   │       └── [         2]  __pycache__
-    │           │   │   ├── [        10]  webencodings
-    │           │   │   │   └── [         5]  __pycache__
-    │           │   │   ├── [        22]  packaging
-    │           │   │   │   └── [        11]  __pycache__
-    │           │   │   ├── [        22]  tenacity
-    │           │   │   │   └── [        11]  __pycache__
-    │           │   │   ├── [        26]  cachecontrol
-    │           │   │   │   ├── [        10]  __pycache__
-    │           │   │   │   └── [         6]  caches
-    │           │   │   │       └── [         3]  __pycache__
-    │           │   │   ├── [         4]  __pycache__
-    │           │   │   ├── [         6]  tomli
-    │           │   │   │   └── [         3]  __pycache__
-    │           │   │   ├── [        16]  idna
-    │           │   │   │   └── [         8]  __pycache__
-    │           │   │   ├── [         4]  pkg_resources
-    │           │   │   │   └── [         2]  __pycache__
-    │           │   │   ├── [        10]  msgpack
-    │           │   │   │   └── [         5]  __pycache__
-    │           │   │   ├── [        16]  platformdirs
-    │           │   │   │   └── [         8]  __pycache__
-    │           │   │   ├── [         7]  certifi
-    │           │   │   │   └── [         3]  __pycache__
-    │           │   │   └── [        78]  urllib3
-    │           │   │       ├── [        20]  contrib
-    │           │   │       │   ├── [         6]  _securetransport
-    │           │   │       │   │   └── [         3]  __pycache__
-    │           │   │       │   └── [         7]  __pycache__
-    │           │   │       ├── [        24]  util
-    │           │   │       │   └── [        12]  __pycache__
-    │           │   │       ├── [        12]  packages
-    │           │   │       │   ├── [         4]  ssl_match_hostname
-    │           │   │       │   │   └── [         2]  __pycache__
-    │           │   │       │   ├── [         4]  backports
-    │           │   │       │   │   └── [         2]  __pycache__
-    │           │   │       │   └── [         2]  __pycache__
-    │           │   │       └── [        11]  __pycache__
-    │           │   ├── [       288]  _internal
-    │           │   │   ├── [        24]  cli
-    │           │   │   │   └── [        12]  __pycache__
-    │           │   │   ├── [         8]  locations
-    │           │   │   │   └── [         4]  __pycache__
-    │           │   │   ├── [        30]  operations
-    │           │   │   │   ├── [        14]  build
-    │           │   │   │   │   └── [         7]  __pycache__
-    │           │   │   │   ├── [         4]  __pycache__
-    │           │   │   │   └── [         8]  install
-    │           │   │   │       └── [         4]  __pycache__
-    │           │   │   ├── [        10]  distributions
-    │           │   │   │   └── [         5]  __pycache__
-    │           │   │   ├── [        34]  commands
-    │           │   │   │   └── [        17]  __pycache__
-    │           │   │   ├── [        26]  resolution
-    │           │   │   │   ├── [        18]  resolvelib
-    │           │   │   │   │   └── [         9]  __pycache__
-    │           │   │   │   ├── [         4]  legacy
-    │           │   │   │   │   └── [         2]  __pycache__
-    │           │   │   │   └── [         2]  __pycache__
-    │           │   │   ├── [         9]  __pycache__
-    │           │   │   ├── [        16]  network
-    │           │   │   │   └── [         8]  __pycache__
-    │           │   │   ├── [        22]  models
-    │           │   │   │   └── [        11]  __pycache__
-    │           │   │   ├── [         8]  index
-    │           │   │   │   └── [         4]  __pycache__
-    │           │   │   ├── [        60]  utils
-    │           │   │   │   └── [        30]  __pycache__
-    │           │   │   ├── [        12]  vcs
-    │           │   │   │   └── [         6]  __pycache__
-    │           │   │   ├── [        14]  req
-    │           │   │   │   └── [         7]  __pycache__
-    │           │   │   └── [         6]  metadata
-    │           │   │       └── [         3]  __pycache__
-    │           │   └── [         2]  __pycache__
-    │           ├── [         8]  pycodestyle-2.8.0.dist-info
-    │           ├── [        12]  colorama
-    │           │   └── [         6]  __pycache__
-    │           ├── [         8]  pip-21.3.1.dist-info
-    │           ├── [         8]  mccabe-0.6.1.dist-info
-    │           ├── [         8]  flake8-4.0.1.dist-info
-    │           ├── [         7]  pyflakes-2.4.0.dist-info
-    │           ├── [        46]  pyflakes
-    │           │   ├── [         6]  __pycache__
-    │           │   ├── [        30]  test
-    │           │   │   └── [        15]  __pycache__
-    │           │   └── [         4]  scripts
-    │           │       └── [         2]  __pycache__
-    │           ├── [         4]  _distutils_hack
-    │           │   └── [         2]  __pycache__
-    │           ├── [         9]  setuptools-52.0.0.dist-info
-    │           ├── [         2]  __pycache__
-    │           ├── [        34]  pkg_resources
-    │           │   ├── [        28]  _vendor
-    │           │   │   ├── [        22]  packaging
-    │           │   │   │   └── [        11]  __pycache__
-    │           │   │   └── [         3]  __pycache__
-    │           │   ├── [         2]  extern
-    │           │   │   └── [         1]  __pycache__
-    │           │   ├── [         1]  __pycache__
-    │           │   └── [         2]  tests
-    │           │       └── [         2]  data
-    │           │           └── [         2]  my-test-package-source
-    │           │               └── [         1]  __pycache__
-    │           ├── [        54]  flake8
-    │           │   ├── [         4]  api
-    │           │   │   └── [         2]  __pycache__
-    │           │   ├── [        10]  main
-    │           │   │   └── [         5]  __pycache__
-    │           │   ├── [         6]  formatting
-    │           │   │   └── [         3]  __pycache__
-    │           │   ├── [        10]  __pycache__
-    │           │   ├── [         8]  options
-    │           │   │   └── [         4]  __pycache__
-    │           │   └── [         6]  plugins
-    │           │       └── [         3]  __pycache__
-    │           └── [         7]  colorama-0.4.4.dist-info
-    ├── [        13]  bin
-    └── [         0]  include
+(.venv) klaatu@jacob:~/kod/countfiles$ countfiles --sizes .
+[  4061]  . (89.1M)
+├── [    40]  .git (42.4K)
+│   ├── [     0]  branches (0)
+│   ├── [    12]  hooks (18.6K)
+│   ├── [     1]  info (240)
+│   ├── [     4]  logs (1K)
+│   │   └── [     3]  refs (692)
+│   │       ├── [     1]  heads (360)
+│   │       └── [     2]  remotes (332)
+│   │           └── [     2]  origin (332)
+│   ├── [    12]  objects (21K)
+│   │   ├── [     1]  0b (210)
+│   │   ├── [     1]  31 (488)
+│   │   ├── [     1]  3e (73)
+│   │   ├── [     1]  8c (550)
+│   │   ├── [     1]  9d (53)
+│   │   ├── [     1]  a6 (55)
+│   │   ├── [     1]  b0 (114)
+│   │   ├── [     1]  c8 (930)
+│   │   ├── [     1]  d3 (38)
+│   │   ├── [     1]  d8 (218)
+│   │   ├── [     0]  info (0)
+│   │   └── [     2]  pack (18.4K)
+│   └── [     3]  refs (114)
+│       ├── [     1]  heads (41)
+│       ├── [     2]  remotes (73)
+│       │   └── [     2]  origin (73)
+│       └── [     0]  tags (0)
+├── [   101]  .mypy_cache (6.5M)
+│   └── [    99]  3.11 (6.5M)
+│       ├── [     2]  _typeshed (109.7K)
+│       ├── [     4]  collections (708.1K)
+│       ├── [     8]  countfiles (24.6K)
+│       ├── [    14]  email (207.2K)
+│       ├── [    10]  importlib (268.7K)
+│       │   └── [     4]  metadata (116.2K)
+│       └── [     4]  os (396.9K)
+├── [  3887]  .venv (82.4M)
+│   ├── [    45]  bin (19.4M)
+│   │   └── [    12]  __pycache__ (10.1K)
+│   ├── [     0]  include (0)
+│   │   └── [     0]  python3.11 (0)
+│   └── [  3841]  lib (63M)
+│       └── [  3841]  python3.11 (63M)
+│           └── [  3841]  site-packages (63M)
+│               ├── [     4]  _distutils_hack (17.6K)
+│               │   └── [     2]  __pycache__ (11.4K)
+│               ├── [    15]  build (111.3K)
+│               │   └── [     7]  __pycache__ (66.8K)
+│               ├── [     7]  build-1.0.3.dist-info (6.9K)
+│               ├── [     8]  certifi (283.8K)
+│               │   └── [     3]  __pycache__ (4.3K)
+│               ├── [     6]  certifi-2023.7.22.dist-info (4.3K)
+│               ├── [    40]  cffi (814.3K)
+│               │   └── [    18]  __pycache__ (450.8K)
+│               ├── [     7]  cffi-1.16.0.dist-info (6.1K)
+│               ├── [    27]  charset_normalizer (557.5K)
+│               │   ├── [    10]  __pycache__ (144K)
+│               │   └── [     4]  cli (21.3K)
+│               │       └── [     2]  __pycache__ (11.7K)
+│               ├── [     7]  charset_normalizer-3.3.2.dist-info (36.8K)
+│               ├── [    26]  colorama (154.7K)
+│               │   ├── [     6]  __pycache__ (41.3K)
+│               │   └── [    14]  tests (83.5K)
+│               │       └── [     7]  __pycache__ (57.1K)
+│               ├── [     5]  colorama-0.4.6.dist-info (20.4K)
+│               │   └── [     1]  licenses (1.5K)
+│               ├── [     9]  countfiles-0.3.0.dist-info (49.3K)
+│               ├── [   164]  cryptography (14.5M)
+│               │   ├── [     5]  __pycache__ (22.8K)
+│               │   ├── [   137]  hazmat (14.1M)
+│               │   │   ├── [     2]  __pycache__ (17.8K)
+│               │   │   ├── [    20]  backends (320.7K)
+│               │   │   │   ├── [     1]  __pycache__ (579)
+│               │   │   │   └── [    18]  openssl (319.8K)
+│               │   │   │       └── [     9]  __pycache__ (183.5K)
+│               │   │   ├── [    27]  bindings (13.2M)
+│               │   │   │   ├── [     1]  __pycache__ (212)
+│               │   │   │   ├── [    18]  _rust (12.8K)
+│               │   │   │   │   └── [    11]  openssl (7.2K)
+│               │   │   │   └── [     6]  openssl (33.7K)
+│               │   │   │       └── [     3]  __pycache__ (18.1K)
+│               │   │   └── [    86]  primitives (540.4K)
+│               │   │       ├── [    11]  __pycache__ (44.3K)
+│               │   │       ├── [    24]  asymmetric (154.5K)
+│               │   │       │   └── [    12]  __pycache__ (95.7K)
+│               │   │       ├── [    10]  ciphers (87K)
+│               │   │       │   └── [     5]  __pycache__ (53.4K)
+│               │   │       ├── [    14]  kdf (56.5K)
+│               │   │       │   └── [     7]  __pycache__ (33.9K)
+│               │   │       ├── [    10]  serialization (158.6K)
+│               │   │       │   └── [     5]  __pycache__ (91.4K)
+│               │   │       └── [     6]  twofactor (12.8K)
+│               │   │           └── [     3]  __pycache__ (8.2K)
+│               │   └── [    16]  x509 (381.3K)
+│               │       └── [     8]  __pycache__ (228.7K)
+│               ├── [     8]  cryptography-41.0.5.dist-info (32.8K)
+│               ├── [   320]  docutils (3.8M)
+│               │   ├── [     8]  __pycache__ (309.6K)
+│               │   ├── [    58]  languages (99.9K)
+│               │   │   └── [    29]  __pycache__ (43.5K)
+│               │   ├── [   126]  parsers (1M)
+│               │   │   ├── [     4]  __pycache__ (12.8K)
+│               │   │   └── [   118]  rst (1M)
+│               │   │       ├── [     4]  __pycache__ (223.3K)
+│               │   │       ├── [    18]  directives (205.8K)
+│               │   │       │   └── [     9]  __pycache__ (118.3K)
+│               │   │       ├── [    34]  include (178.7K)
+│               │   │       └── [    58]  languages (197.1K)
+│               │   │           └── [    29]  __pycache__ (94.2K)
+│               │   ├── [     8]  readers (20.8K)
+│               │   │   └── [     4]  __pycache__ (12.1K)
+│               │   ├── [    18]  transforms (235.1K)
+│               │   │   └── [     9]  __pycache__ (131.9K)
+│               │   ├── [    26]  utils (708.7K)
+│               │   │   ├── [     7]  __pycache__ (104.9K)
+│               │   │   └── [    12]  math (510K)
+│               │   │       └── [     6]  __pycache__ (291.2K)
+│               │   └── [    68]  writers (1.2M)
+│               │       ├── [     6]  __pycache__ (188.6K)
+│               │       ├── [     4]  html4css1 (100.3K)
+│               │       │   └── [     1]  __pycache__ (56.4K)
+│               │       ├── [     8]  html5_polyglot (84.5K)
+│               │       │   └── [     1]  __pycache__ (23.8K)
+│               │       ├── [     7]  latex2e (303.5K)
+│               │       │   └── [     1]  __pycache__ (162.3K)
+│               │       ├── [     7]  odf_odt (321.5K)
+│               │       │   └── [     3]  __pycache__ (169.4K)
+│               │       ├── [     4]  pep_html (16K)
+│               │       │   └── [     1]  __pycache__ (5.4K)
+│               │       ├── [    24]  s5_html (82.1K)
+│               │       │   ├── [     1]  __pycache__ (18.2K)
+│               │       │   └── [    22]  themes (49.8K)
+│               │       │       ├── [     3]  big-black (4.4K)
+│               │       │       ├── [     2]  big-white (4.4K)
+│               │       │       ├── [     8]  default (23.1K)
+│               │       │       ├── [     2]  medium-black (4K)
+│               │       │       ├── [     2]  medium-white (4.8K)
+│               │       │       ├── [     2]  small-black (4K)
+│               │       │       └── [     2]  small-white (4.8K)
+│               │       └── [     2]  xetex (11.4K)
+│               │           └── [     1]  __pycache__ (5.8K)
+│               ├── [     7]  docutils-0.20.1.dist-info (36.6K)
+│               ├── [    17]  idna (490.8K)
+│               │   └── [     8]  __pycache__ (226.8K)
+│               ├── [     5]  idna-3.4.dist-info (12.5K)
+│               ├── [    19]  importlib_metadata (125.3K)
+│               │   └── [     9]  __pycache__ (81K)
+│               ├── [     6]  importlib_metadata-6.8.0.dist-info (18.1K)
+│               ├── [    89]  isort (700K)
+│               │   ├── [    27]  __pycache__ (308.9K)
+│               │   ├── [     8]  _vendored (59K)
+│               │   │   └── [     8]  tomli (59K)
+│               │   │       └── [     3]  __pycache__ (34.1K)
+│               │   ├── [     4]  deprecated (40.1K)
+│               │   │   └── [     2]  __pycache__ (25.7K)
+│               │   └── [    22]  stdlibs (41.6K)
+│               │       └── [    11]  __pycache__ (17.5K)
+│               ├── [     7]  isort-5.12.0.dist-info (20.2K)
+│               ├── [     8]  jaraco (18.7K)
+│               │   └── [     8]  classes (18.7K)
+│               │       └── [     4]  __pycache__ (11.5K)
+│               ├── [     6]  jaraco.classes-3.3.0.dist-info (5K)
+│               ├── [    61]  jeepney (360.3K)
+│               │   ├── [     9]  __pycache__ (91.7K)
+│               │   ├── [    26]  io (175.5K)
+│               │   │   ├── [     6]  __pycache__ (81.4K)
+│               │   │   └── [    14]  tests (48.4K)
+│               │   │       └── [     7]  __pycache__ (33.7K)
+│               │   └── [    17]  tests (40K)
+│               │       └── [     8]  __pycache__ (24.6K)
+│               ├── [     5]  jeepney-0.8.0.dist-info (6.8K)
+│               ├── [    58]  keyring (199.2K)
+│               │   ├── [    13]  __pycache__ (52.2K)
+│               │   ├── [    20]  backends (86.2K)
+│               │   │   ├── [     8]  __pycache__ (41.7K)
+│               │   │   └── [     4]  macOS (19.3K)
+│               │   │       └── [     2]  __pycache__ (12.4K)
+│               │   ├── [     6]  testing (23.3K)
+│               │   │   └── [     3]  __pycache__ (15K)
+│               │   └── [     4]  util (8.6K)
+│               │       └── [     2]  __pycache__ (5.5K)
+│               ├── [     7]  keyring-24.2.0.dist-info (25.9K)
+│               ├── [   134]  markdown_it (461.4K)
+│               │   ├── [    12]  __pycache__ (92.6K)
+│               │   ├── [     4]  cli (8.2K)
+│               │   │   └── [     2]  __pycache__ (5.3K)
+│               │   ├── [    12]  common (32.3K)
+│               │   │   └── [     6]  __pycache__ (17.3K)
+│               │   ├── [     8]  helpers (11K)
+│               │   │   └── [     4]  __pycache__ (6.5K)
+│               │   ├── [     8]  presets (12.3K)
+│               │   │   └── [     4]  __pycache__ (4.7K)
+│               │   ├── [    26]  rules_block (110K)
+│               │   │   └── [    13]  __pycache__ (57K)
+│               │   ├── [    18]  rules_core (41.8K)
+│               │   │   └── [     9]  __pycache__ (23K)
+│               │   └── [    32]  rules_inline (84.7K)
+│               │       └── [    16]  __pycache__ (46.2K)
+│               ├── [     7]  markdown_it_py-3.0.0.dist-info (19.6K)
+│               ├── [    13]  mdurl (36.5K)
+│               │   └── [     6]  __pycache__ (18.5K)
+│               ├── [     5]  mdurl-0.1.2.dist-info (5.1K)
+│               ├── [    10]  more_itertools (399.2K)
+│               │   └── [     3]  __pycache__ (211.7K)
+│               ├── [     5]  more_itertools-10.1.0.dist-info (35.3K)
+│               ├── [     5]  nh3 (6.1M)
+│               │   └── [     1]  __pycache__ (345)
+│               ├── [     4]  nh3-0.2.14.dist-info (2.3K)
+│               ├── [    29]  packaging (341.2K)
+│               │   └── [    14]  __pycache__ (188.8K)
+│               ├── [     7]  packaging-23.2.dist-info (17.1K)
+│               ├── [   993]  pip (13M)
+│               │   ├── [     3]  __pycache__ (4.1K)
+│               │   ├── [   294]  _internal (2.4M)
+│               │   │   ├── [     9]  __pycache__ (118.6K)
+│               │   │   ├── [    24]  cli (201.4K)
+│               │   │   │   └── [    12]  __pycache__ (113.5K)
+│               │   │   ├── [    36]  commands (275.9K)
+│               │   │   │   └── [    18]  __pycache__ (160.7K)
+│               │   │   ├── [    10]  distributions (28.6K)
+│               │   │   │   └── [     5]  __pycache__ (17.4K)
+│               │   │   ├── [     8]  index (137.8K)
+│               │   │   │   └── [     4]  __pycache__ (78.2K)
+│               │   │   ├── [     8]  locations (68.7K)
+│               │   │   │   └── [     4]  __pycache__ (37.7K)
+│               │   │   ├── [    16]  metadata (154.6K)
+│               │   │   │   ├── [     4]  __pycache__ (64.8K)
+│               │   │   │   └── [     8]  importlib (48K)
+│               │   │   │       └── [     4]  __pycache__ (30.6K)
+│               │   │   ├── [    24]  models (121.3K)
+│               │   │   │   └── [    12]  __pycache__ (72.2K)
+│               │   │   ├── [    16]  network (138.9K)
+│               │   │   │   └── [     8]  __pycache__ (78.8K)
+│               │   │   ├── [    30]  operations (201.6K)
+│               │   │   │   ├── [     4]  __pycache__ (47.1K)
+│               │   │   │   ├── [    16]  build (40.8K)
+│               │   │   │   │   └── [     8]  __pycache__ (25.7K)
+│               │   │   │   └── [     6]  install (70K)
+│               │   │   │       └── [     3]  __pycache__ (41.9K)
+│               │   │   ├── [    12]  req (234.6K)
+│               │   │   │   └── [     6]  __pycache__ (132.9K)
+│               │   │   ├── [    26]  resolution (265K)
+│               │   │   │   ├── [     2]  __pycache__ (1.5K)
+│               │   │   │   ├── [     4]  legacy (47K)
+│               │   │   │   │   └── [     2]  __pycache__ (23.5K)
+│               │   │   │   └── [    18]  resolvelib (215.9K)
+│               │   │   │       └── [     9]  __pycache__ (123.1K)
+│               │   │   ├── [    54]  utils (290.3K)
+│               │   │   │   └── [    27]  __pycache__ (171.2K)
+│               │   │   └── [    12]  vcs (141.7K)
+│               │   │       └── [     6]  __pycache__ (81.1K)
+│               │   └── [   692]  _vendor (10.6M)
+│               │       ├── [     3]  __pycache__ (179.4K)
+│               │       ├── [    24]  cachecontrol (118.5K)
+│               │       │   ├── [     9]  __pycache__ (53.6K)
+│               │       │   └── [     6]  caches (19.1K)
+│               │       │       └── [     3]  __pycache__ (12.3K)
+│               │       ├── [     7]  certifi (284.7K)
+│               │       │   └── [     3]  __pycache__ (5K)
+│               │       ├── [    96]  chardet (2M)
+│               │       │   ├── [    44]  __pycache__ (1M)
+│               │       │   ├── [     4]  cli (7.6K)
+│               │       │   │   └── [     2]  __pycache__ (4.4K)
+│               │       │   └── [     4]  metadata (24K)
+│               │       │       └── [     2]  __pycache__ (10.8K)
+│               │       ├── [    26]  colorama (154.8K)
+│               │       │   ├── [     6]  __pycache__ (41.4K)
+│               │       │   └── [    14]  tests (83.6K)
+│               │       │       └── [     7]  __pycache__ (57.2K)
+│               │       ├── [    26]  distlib (890.7K)
+│               │       │   └── [    13]  __pycache__ (511.2K)
+│               │       ├── [     6]  distro (107.1K)
+│               │       │   └── [     3]  __pycache__ (57.9K)
+│               │       ├── [    16]  idna (490.9K)
+│               │       │   └── [     8]  __pycache__ (226.9K)
+│               │       ├── [     8]  msgpack (101.2K)
+│               │       │   └── [     4]  __pycache__ (59.4K)
+│               │       ├── [    22]  packaging (225.5K)
+│               │       │   └── [    11]  __pycache__ (131.4K)
+│               │       ├── [     2]  pkg_resources (263.2K)
+│               │       │   └── [     1]  __pycache__ (156.4K)
+│               │       ├── [    16]  platformdirs (130K)
+│               │       │   └── [     8]  __pycache__ (73.2K)
+│               │       ├── [    70]  pygments (1M)
+│               │       │   ├── [    16]  __pycache__ (177K)
+│               │       │   ├── [     2]  filters (78.6K)
+│               │       │   │   └── [     1]  __pycache__ (39.2K)
+│               │       │   ├── [    28]  formatters (302.3K)
+│               │       │   │   └── [    14]  __pycache__ (169.5K)
+│               │       │   ├── [     6]  lexers (256.1K)
+│               │       │   │   └── [     3]  __pycache__ (121.5K)
+│               │       │   └── [     2]  styles (8.2K)
+│               │       │       └── [     1]  __pycache__ (4.6K)
+│               │       ├── [    22]  pyparsing (878K)
+│               │       │   ├── [    10]  __pycache__ (473.5K)
+│               │       │   └── [     2]  diagram (51.8K)
+│               │       │       └── [     1]  __pycache__ (28.1K)
+│               │       ├── [    10]  pyproject_hooks (58.1K)
+│               │       │   ├── [     3]  __pycache__ (17.4K)
+│               │       │   └── [     4]  _in_process (28.5K)
+│               │       │       └── [     2]  __pycache__ (17.2K)
+│               │       ├── [    36]  requests (390.7K)
+│               │       │   └── [    18]  __pycache__ (215.6K)
+│               │       ├── [    14]  resolvelib (83.7K)
+│               │       │   ├── [     5]  __pycache__ (50.2K)
+│               │       │   └── [     4]  compat (857)
+│               │       │       └── [     2]  __pycache__ (701)
+│               │       ├── [   154]  rich (2M)
+│               │       │   └── [    77]  __pycache__ (1.2M)
+│               │       ├── [    22]  tenacity (134.6K)
+│               │       │   └── [    11]  __pycache__ (80.7K)
+│               │       ├── [     8]  tomli (60.9K)
+│               │       │   └── [     4]  __pycache__ (35.3K)
+│               │       ├── [    12]  truststore (102K)
+│               │       │   └── [     6]  __pycache__ (54.2K)
+│               │       ├── [    78]  urllib3 (846.3K)
+│               │       │   ├── [    11]  __pycache__ (176.3K)
+│               │       │   ├── [    20]  contrib (225.3K)
+│               │       │   │   ├── [     7]  __pycache__ (89.1K)
+│               │       │   │   └── [     6]  _securetransport (62.9K)
+│               │       │   │       └── [     3]  __pycache__ (32K)
+│               │       │   ├── [    10]  packages (96K)
+│               │       │   │   ├── [     2]  __pycache__ (45.6K)
+│               │       │   │   └── [     6]  backports (16.6K)
+│               │       │   │       └── [     3]  __pycache__ (9.9K)
+│               │       │   └── [    26]  util (201.4K)
+│               │       │       └── [    13]  __pycache__ (106.3K)
+│               │       └── [    10]  webencodings (68.2K)
+│               │           └── [     5]  __pycache__ (37.3K)
+│               ├── [     9]  pip-23.3.dist-info (90.3K)
+│               ├── [    86]  pkg_resources (1.4M)
+│               │   ├── [     1]  __pycache__ (156.4K)
+│               │   ├── [    82]  _vendor (1.1M)
+│               │   │   ├── [     3]  __pycache__ (111K)
+│               │   │   ├── [    18]  importlib_resources (86.4K)
+│               │   │   │   └── [     9]  __pycache__ (58K)
+│               │   │   ├── [     8]  jaraco (96.6K)
+│               │   │   │   ├── [     3]  __pycache__ (33.4K)
+│               │   │   │   └── [     2]  text (41.2K)
+│               │   │   │       └── [     1]  __pycache__ (26K)
+│               │   │   ├── [     6]  more_itertools (360.9K)
+│               │   │   │   └── [     3]  __pycache__ (204.1K)
+│               │   │   ├── [    28]  packaging (301.9K)
+│               │   │   │   └── [    14]  __pycache__ (167.1K)
+│               │   │   └── [    16]  platformdirs (91.6K)
+│               │   │       └── [     8]  __pycache__ (53.2K)
+│               │   └── [     2]  extern (6.6K)
+│               │       └── [     1]  __pycache__ (4.2K)
+│               ├── [    51]  pkginfo (252.1K)
+│               │   ├── [    10]  __pycache__ (43.4K)
+│               │   └── [    20]  tests (180.6K)
+│               │       └── [    10]  __pycache__ (121.6K)
+│               ├── [     7]  pkginfo-1.9.6.dist-info (15.8K)
+│               ├── [    35]  pycparser (1.2M)
+│               │   ├── [    11]  __pycache__ (416.2K)
+│               │   └── [    12]  ply (404.4K)
+│               │       └── [     6]  __pycache__ (190.4K)
+│               ├── [     6]  pycparser-2.21.dist-info (5.4K)
+│               ├── [   626]  pygments (7.6M)
+│               │   ├── [    16]  __pycache__ (177.6K)
+│               │   ├── [     2]  filters (78.5K)
+│               │   │   └── [     1]  __pycache__ (39.1K)
+│               │   ├── [    28]  formatters (303.9K)
+│               │   │   └── [    14]  __pycache__ (170.4K)
+│               │   ├── [   472]  lexers (6.6M)
+│               │   │   └── [   236]  __pycache__ (3M)
+│               │   └── [    92]  styles (255.5K)
+│               │       └── [    46]  __pycache__ (137.2K)
+│               ├── [     8]  Pygments-2.16.1.dist-info (56.8K)
+│               ├── [    10]  pyproject_hooks (58K)
+│               │   ├── [     3]  __pycache__ (17.3K)
+│               │   └── [     4]  _in_process (28.4K)
+│               │       └── [     2]  __pycache__ (17.2K)
+│               ├── [     5]  pyproject_hooks-1.0.0.dist-info (3.6K)
+│               ├── [    13]  readme_renderer (28.7K)
+│               │   └── [     6]  __pycache__ (14.5K)
+│               ├── [     6]  readme_renderer-42.0.dist-info (13.7K)
+│               ├── [    36]  requests (390.6K)
+│               │   └── [    18]  __pycache__ (215.7K)
+│               ├── [     6]  requests-2.31.0.dist-info (17.2K)
+│               ├── [    68]  requests_toolbelt (300.3K)
+│               │   ├── [     5]  __pycache__ (26.6K)
+│               │   ├── [    16]  adapters (63.9K)
+│               │   │   └── [     8]  __pycache__ (36.2K)
+│               │   ├── [    10]  auth (35.5K)
+│               │   │   └── [     5]  __pycache__ (21.8K)
+│               │   ├── [     4]  cookies (1.2K)
+│               │   │   └── [     2]  __pycache__ (1K)
+│               │   ├── [     6]  downloadutils (21.8K)
+│               │   │   └── [     3]  __pycache__ (11.7K)
+│               │   ├── [     6]  multipart (65.3K)
+│               │   │   └── [     3]  __pycache__ (39.4K)
+│               │   ├── [     6]  threaded (27.6K)
+│               │   │   └── [     3]  __pycache__ (16.6K)
+│               │   └── [    10]  utils (40.6K)
+│               │       └── [     5]  __pycache__ (24.1K)
+│               ├── [     7]  requests_toolbelt-1.0.0.dist-info (21.9K)
+│               ├── [    26]  rfc3986 (196.4K)
+│               │   └── [    13]  __pycache__ (104.6K)
+│               ├── [     6]  rfc3986-2.0.0.dist-info (9.2K)
+│               ├── [   157]  rich (2.1M)
+│               │   └── [    78]  __pycache__ (1.2M)
+│               ├── [     5]  rich-13.6.0.dist-info (28.7K)
+│               ├── [    15]  secretstorage (72.8K)
+│               │   └── [     7]  __pycache__ (43.1K)
+│               ├── [     6]  SecretStorage-3.3.3.dist-info (7K)
+│               ├── [   355]  setuptools (4.5M)
+│               │   ├── [    31]  __pycache__ (386K)
+│               │   ├── [   114]  _distutils (1.2M)
+│               │   │   ├── [    34]  __pycache__ (437.2K)
+│               │   │   └── [    46]  command (436.3K)
+│               │   │       └── [    23]  __pycache__ (233.2K)
+│               │   ├── [    94]  _vendor (1.2M)
+│               │   │   ├── [     4]  __pycache__ (142.2K)
+│               │   │   ├── [    18]  importlib_metadata (113.7K)
+│               │   │   │   └── [     9]  __pycache__ (73.7K)
+│               │   │   ├── [    18]  importlib_resources (86.4K)
+│               │   │   │   └── [     9]  __pycache__ (58K)
+│               │   │   ├── [     8]  jaraco (96.5K)
+│               │   │   │   ├── [     3]  __pycache__ (33.4K)
+│               │   │   │   └── [     2]  text (41.1K)
+│               │   │   │       └── [     1]  __pycache__ (26K)
+│               │   │   ├── [     6]  more_itertools (300.4K)
+│               │   │   │   └── [     3]  __pycache__ (169.2K)
+│               │   │   ├── [    28]  packaging (301.8K)
+│               │   │   │   └── [    14]  __pycache__ (167K)
+│               │   │   └── [     8]  tomli (61K)
+│               │   │       └── [     4]  __pycache__ (35.4K)
+│               │   ├── [    51]  command (660.4K)
+│               │   │   └── [    25]  __pycache__ (394K)
+│               │   ├── [    22]  config (712.2K)
+│               │   │   ├── [     5]  __pycache__ (112.6K)
+│               │   │   └── [    12]  _validate_pyproject (525.6K)
+│               │   │       └── [     6]  __pycache__ (233.5K)
+│               │   └── [     2]  extern (6.8K)
+│               │       └── [     1]  __pycache__ (4.3K)
+│               ├── [     8]  setuptools-68.1.2.dist-info (45.7K)
+│               ├── [    31]  twine (182.2K)
+│               │   ├── [    11]  __pycache__ (83K)
+│               │   └── [     8]  commands (39.4K)
+│               │       └── [     4]  __pycache__ (21.9K)
+│               ├── [     8]  twine-4.0.2.dist-info (15.5K)
+│               ├── [    65]  urllib3 (828.7K)
+│               │   ├── [    12]  __pycache__ (228.1K)
+│               │   ├── [    14]  contrib (193.7K)
+│               │   │   ├── [     4]  __pycache__ (72.7K)
+│               │   │   └── [     6]  _securetransport (61.4K)
+│               │   │       └── [     3]  __pycache__ (31.5K)
+│               │   └── [    26]  util (212.5K)
+│               │       └── [    13]  __pycache__ (112.8K)
+│               ├── [     5]  urllib3-2.0.7.dist-info (12.4K)
+│               │   └── [     1]  licenses (1.1K)
+│               ├── [     6]  zipp (34.7K)
+│               │   └── [     3]  __pycache__ (22.7K)
+│               └── [     6]  zipp-3.17.0.dist-info (5.6K)
+├── [     4]  build (8.4K)
+│   ├── [     0]  bdist.linux-x86_64 (0)
+│   └── [     4]  lib (8.4K)
+│       └── [     4]  countfiles (8.4K)
+├── [     6]  countfiles.egg-info (778)
+├── [     4]  dist (45.5K)
+└── [    14]  src (32.6K)
+    ├── [     8]  countfiles (18.4K)
+    │   └── [     5]  __pycache__ (13.4K)
+    └── [     6]  countfiles.egg-info (14.2K)
 ```
