@@ -1,8 +1,15 @@
+import enum
 import locale
 import os
 
 import colorama
 from colorama import Fore, Style
+
+
+class SortBy(enum.Enum):
+    NAME = 1
+    FILECOUNT = 2
+    SIZE = 3
 
 
 class Node:
@@ -42,6 +49,9 @@ class Node:
         self.children.append(child)
 
     def format_size(self) -> str:
+        terabytes = round(self.size / 1024 / 1024 / 1024 / 1024, 1)
+        if terabytes >= 1.0:
+            return locale.str(terabytes) + "T"
         gigabytes = round(self.size / 1024 / 1024 / 1024, 1)
         if gigabytes >= 1.0:
             return locale.str(gigabytes) + "G"
@@ -53,14 +63,29 @@ class Node:
             return locale.str(kilobytes) + "K"
         return str(self.size)
 
+    def get_children(self, sort_by: SortBy, reverse: bool, min_filecount: int | None):
+        children = self.children
+        if min_filecount:
+            children = [c for c in children if c.filecount >= min_filecount]
+        match sort_by:
+            case SortBy.NAME:
+                children = sorted(children, key=lambda c: c.basename, reverse=reverse)
+            case SortBy.FILECOUNT:
+                children = sorted(children, key=lambda c: c.filecount, reverse=reverse)
+            case SortBy.SIZE:
+                children = sorted(children, key=lambda c: c.size, reverse=reverse)
+        return children
+
     def print(
         self,
-        max_depth: "int | None" = None,
-        min_filecount: "int | None" = None,
+        max_depth: int | None = None,
+        min_filecount: int | None = None,
         depth: int = 0,
         prefix: str = "",
         is_last_child: bool = False,
         color: bool = True,
+        sort_by: SortBy = SortBy.NAME,
+        reverse: bool = False,
     ):
         if color and not depth:
             colorama.init()
@@ -72,20 +97,16 @@ class Node:
             else:
                 print("├── ", end="")
 
-        output = f"[{str(self.filecount).rjust(6)}]  "
+        output = f"[{str(self.filecount).rjust(6)}"
+        if self.show_sizes:
+            output += f"; {self.format_size().rjust(6)}"
+        output += "]  "
+
         if color:
             output += Fore.LIGHTWHITE_EX + Style.BRIGHT
         output += self.basename
 
-        if self.show_sizes:
-            if color:
-                output += Style.RESET_ALL
-            output += f" ({self.format_size()})"
-
-        if min_filecount:
-            children = [c for c in self.children if c.filecount >= min_filecount]
-        else:
-            children = self.children
+        children = self.get_children(sort_by=sort_by, reverse=reverse, min_filecount=min_filecount)
 
         if (max_depth and max_depth == depth + 1 and children) or len(self.children) > len(children):
             if color:
@@ -104,7 +125,7 @@ class Node:
                 child_prefix = prefix + "    "
             else:
                 child_prefix = prefix + "│   "
-            for idx, child in enumerate(sorted(children)):
+            for idx, child in enumerate(children):
                 child.print(
                     max_depth=max_depth,
                     min_filecount=min_filecount,
@@ -112,4 +133,6 @@ class Node:
                     prefix=child_prefix,
                     is_last_child=idx == len(children) - 1,
                     color=color,
+                    sort_by=sort_by,
+                    reverse=reverse,
                 )
