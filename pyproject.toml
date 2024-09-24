@@ -16,7 +16,7 @@ dependencies = [
 ]
 description = "Recursively count files per directory."
 dynamic = ["version"]
-name = "countfiles"
+name = "countfiles2"
 readme = "README.md"
 requires-python = ">=3.7"
 

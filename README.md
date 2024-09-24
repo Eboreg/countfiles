@@ -2,7 +2,15 @@
 
 Like `tree` on Linux, but for number of files.
 
-The basics:
+## Installation
+
+```shell
+pip install countfiles2
+```
+
+(The package name `countfiles` was taken.)
+
+## The basics
 
 ```shell
 $ countfiles --help
@@ -28,7 +36,7 @@ options:
   --sort-size, -ss      Sort results by total size.
 ```
 
-Example output:
+## Example output
 
 ```shell
 $ countfiles --sizes --max-depth 4
