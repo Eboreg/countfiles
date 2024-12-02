@@ -43,10 +43,6 @@ def cli():
         reverse=args.reverse,
     )
 
-    if args.max_depth or args.min_filecount:
-        print("")
-        print("* = one or more immediate subdirectories exist, but are not shown")
-
 
 if __name__ == "__main__":
     cli()

@@ -1,0 +1,2 @@
+* ineffektivt vid stor katalog, går det att köra generator?
+* fånga läsrättighetsfel o visa

@@ -37,6 +37,7 @@ disable = [
     "missing-module-docstring",
     "too-many-arguments",
     "too-many-branches",
+    "too-many-instance-attributes",
 ]
 ignore = [".venv"]
 max-line-length = 119
