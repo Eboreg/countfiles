@@ -14,7 +14,7 @@ pip install countfiles2
 
 ```shell
 $ countfiles --help
-usage: countfiles [-h] [--max-depth MAX_DEPTH] [--min-filecount MIN_FILECOUNT] [--sizes] [--count-dirs] [--reverse] [--no-color] [--version] [--sort-count | --sort-size] [path]
+usage: countfiles [-h] [--max-depth MAX_DEPTH] [--min-filecount MIN_FILECOUNT] [--sizes] [--count-dirs] [--reverse] [--no-color] [--no-hidden] [--version] [--symlinks] [--sort-count | --sort-size] [path]
 
 Show accumulated number of files per directory.
 
@@ -31,7 +31,9 @@ options:
   --count-dirs, -c      Also include directories in the file counts.
   --reverse, -r         Reverse result sorting.
   --no-color
+  --no-hidden           Ignore hidden files and folders.
   --version, -V         show program's version number and exit
+  --symlinks, -ln       Follow symlinks (will throw exception if an infinite recursion is detected).
   --sort-count, -sc     Sort results by file count.
   --sort-size, -ss      Sort results by total size.
 ```
@@ -40,69 +42,45 @@ options:
 
 ```shell
 $ countfiles --sizes --max-depth 4
-[  1200;  47.2M]  .
-├── [    49;  51.8K]  .git
-│   ├── [     0;      0]  branches
-│   ├── [    12;  18.6K]  hooks
-│   ├── [     1;    240]  info
-│   ├── [     4;   1.5K]  logs
-│   │   └── [     3;     1K]  refs*
-│   ├── [    21;    30K]  objects
-│   │   ├── [     1;    210]  0b
-│   │   ├── [     1;     38]  26
-│   │   ├── [     1;    488]  31
-│   │   ├── [     1;    589]  34
-│   │   ├── [     1;     73]  3e
-│   │   ├── [     1;   6.2K]  47
-│   │   ├── [     1;     52]  50
-│   │   ├── [     1;   1.2K]  6b
-│   │   ├── [     1;    550]  8c
-│   │   ├── [     2;    220]  9d
-│   │   ├── [     1;    549]  a4
-│   │   ├── [     1;     55]  a6
-│   │   ├── [     1;    114]  b0
-│   │   ├── [     1;    930]  c8
-│   │   ├── [     1;     38]  d3
-│   │   ├── [     1;    218]  d5
-│   │   ├── [     1;    218]  d8
-│   │   ├── [     1;    113]  f9
-│   │   ├── [     0;      0]  info
-│   │   └── [     2;  18.4K]  pack
-│   └── [     3;    114]  refs
-│       ├── [     1;     41]  heads
-│       ├── [     2;     73]  remotes*
-│       └── [     0;      0]  tags
-├── [   218;    14M]  .mypy_cache
-│   ├── [    99;   6.5M]  3.11
-│   │   ├── [     2; 109.7K]  _typeshed
-│   │   ├── [     4; 708.1K]  collections
-│   │   ├── [     8;  24.6K]  countfiles
-│   │   ├── [    14; 207.2K]  email
-│   │   ├── [    10; 268.7K]  importlib*
-│   │   └── [     4; 396.9K]  os
-│   └── [   117;   7.5M]  3.12
-│       ├── [     4; 132.1K]  _typeshed
-│       ├── [     4; 830.9K]  collections
-│       ├── [     6;  20.8K]  countfiles
-│       ├── [    16; 313.4K]  email
-│       ├── [    18; 290.6K]  importlib*
-│       ├── [     4; 417.4K]  os
-│       ├── [     4; 176.4K]  sys
-│       └── [     4; 116.7K]  zipfile
-├── [   897;    33M]  .venv
-│   ├── [    11;  23.1M]  bin
-│   ├── [     0;      0]  include
-│   │   └── [     0;      0]  python3.12
-│   └── [   885;   9.9M]  lib
-│       └── [   885;   9.9M]  python3.12*
-├── [     4;   8.4K]  build
-│   ├── [     0;      0]  bdist.linux-x86_64
-│   └── [     4;   8.4K]  lib
-│       └── [     4;   8.4K]  countfiles
-├── [     6;    778]  countfiles.egg-info
-├── [     4;  45.5K]  dist
-└── [    17;  61.6K]  src
-    ├── [    11;  30.1K]  countfiles
-    │   └── [     8;  23.7K]  __pycache__
-    └── [     6;  31.6K]  countfiles.egg-info
+[  5498]  countfiles                                         [  73.8M]
+├───[    27]  .git                                           [  58.7K]
+│   ├───[     0]  branches                                   [      0]
+│   ├───[    13]  hooks                                      [    23K]
+│   ├───[     1]  info                                       [    240]
+│   ├───[     3]  logs                                       [    537]
+│   │   └───[     2]  refs (3 children not shown)            [    358]
+│   ├───[     2]  objects                                    [  33.5K]
+│   │   ├───[     0]  info                                   [      0]
+│   │   └───[     2]  pack                                   [  33.5K]
+│   └───[     2]  refs                                       [     73]
+│       ├───[     1]  heads                                  [     41]
+│       ├───[     1]  remotes (1 child not shown)            [     32]
+│       └───[     0]  tags                                   [      0]
+├───[   121]  .mypy_cache                                    [   7.8M]
+│   └───[   119]  3.11                                       [   7.8M]
+│       ├───[     4]  _typeshed                              [   132K]
+│       ├───[     4]  collections                            [ 818.3K]
+│       ├───[     6]  countfiles                             [  44.2K]
+│       ├───[     2]  curses                                 [    38K]
+│       ├───[    16]  email                                  [ 313.4K]
+│       ├───[    18]  importlib (2 children not shown)       [ 339.6K]
+│       ├───[     4]  os                                     [ 412.6K]
+│       ├───[     2]  sys                                    [ 157.1K]
+│       └───[     2]  zipfile                                [ 100.9K]
+├───[  5329]  .venv                                          [  65.9M]
+│   ├───[    15]  bin                                        [  19.6M]
+│   ├───[     0]  include                                    [      0]
+│   │   └───[     0]  python3.11                             [      0]
+│   ├───[  5312]  lib                                        [  46.3M]
+│   │   └───[  5312]  python3.11 (596 children not shown)    [  46.3M]
+│   └───[     1]  share                                      [     2K]
+│       └───[     1]  man (1 child not shown)                [     2K]
+├───[     3]  build                                          [     7K]
+│   ├───[     0]  bdist.linux-x86_64                         [      0]
+│   └───[     3]  lib                                        [     7K]
+│       └───[     3]  countfiles                             [     7K]
+└───[    12]  src                                            [  40.2K]
+    ├───[     6]  countfiles                                 [  35.3K]
+    │   └───[     3]  __pycache__                            [  23.1K]
+    └───[     6]  countfiles2.egg-info                       [   4.9K]
 ```
