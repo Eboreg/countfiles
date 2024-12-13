@@ -20,6 +20,12 @@ name = "countfiles2"
 readme = "README.md"
 requires-python = ">=3.7"
 
+[project.optional-dependencies]
+dev = [
+    "isort",
+    "pylint",
+]
+
 [project.scripts]
 countfiles = "countfiles.cli:cli"
 
@@ -42,3 +48,21 @@ disable = [
 ]
 ignore = [".venv"]
 max-line-length = 119
+
+[tool.isort]
+combine_as_imports = true
+default_section = "THIRDPARTY"
+include_trailing_comma = true
+line_length = 79
+multi_line_output = 5
+known_self = "countfiles"
+lines_after_imports = 2
+sections = [
+    "FUTURE",
+    "STDLIB",
+    "THIRDPARTY",
+    "FIRSTPARTY",
+    "SELF",
+    "LOCALFOLDER",
+]
+skip = [".venv"]
