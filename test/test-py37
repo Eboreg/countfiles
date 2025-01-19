@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE[0]}")"/..
+docker build --file test/Dockerfile-py37 -t countfiles-test .
+
+if ! docker run -it --rm --name countfiles-test countfiles-test; then
+    printf "\nTest failed.\n"
+else
+    printf "\nTest succeeded!\n"
+fi

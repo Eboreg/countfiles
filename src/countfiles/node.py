@@ -2,6 +2,7 @@ import enum
 import locale
 import math
 import os
+from typing import Dict, List, Optional
 
 import colorama
 from colorama import Fore, Style
@@ -33,9 +34,9 @@ class SortBy(enum.Enum):
 
 class OutputLine:
     text: str = ""
-    colors: dict[int, str]
+    colors: Dict[int, str]
 
-    def __init__(self, text: str = "", colors: dict[int, str] | None = None):
+    def __init__(self, text: str = "", colors: Optional[Dict[int, str]] = None):
         self.text = text
         self.colors = colors or {}
         self.append_color(Style.RESET_ALL)
@@ -78,10 +79,10 @@ class OutputLine:
 
 
 class Node:
-    children: "list[Node]"
-    parent: str | None = None
+    children: "List[Node]"
+    parent: Optional[str] = None
 
-    def __init__(self, root: str, files: list[str], dirs: list[str], root_fd: int, count_dirs: bool):
+    def __init__(self, root: str, files: List[str], dirs: List[str], root_fd: int, count_dirs: bool):
         self.root_size = sum(self.get_file_size(name, root_fd) for name in files)
         self.root_filecount = len(files)
         self.root_dircount = len(dirs)
@@ -132,8 +133,8 @@ class Node:
     def prepare(
         self,
         depth: int = 0,
-        max_depth: int | None = None,
-        min_filecount: int | None = None,
+        max_depth: Optional[int] = None,
+        min_filecount: Optional[int] = None,
         prefix: str = "",
         is_last_child: bool = False,
         sort_by: SortBy = SortBy.NAME,
@@ -200,17 +201,17 @@ class Node:
         sort_by: SortBy,
         reverse: bool,
         depth: int,
-        min_filecount: int | None,
-        max_depth: int | None = None,
+        min_filecount: Optional[int],
+        max_depth: Optional[int] = None,
     ):
         def sort_func(child: "Node"):
-            match sort_by:
-                case SortBy.NAME:
-                    return child.basename
-                case SortBy.FILECOUNT:
-                    return child.filecount
-                case SortBy.SIZE:
-                    return child.size
+            if sort_by == SortBy.NAME:
+                return child.basename
+            if sort_by == SortBy.FILECOUNT:
+                return child.filecount
+            if sort_by == SortBy.SIZE:
+                return child.size
+            raise ValueError("This should not be possible.")
 
         if max_depth is not None and max_depth <= depth + 1:
             return []
@@ -224,7 +225,7 @@ class Node:
 
 
 class PreparedNode:
-    def __init__(self, col1: OutputLine, size: int, show_sizes: bool, children: "list[PreparedNode]"):
+    def __init__(self, col1: OutputLine, size: int, show_sizes: bool, children: "List[PreparedNode]"):
         self.col1 = col1
         self.size = size
         self.show_sizes = show_sizes
@@ -237,7 +238,7 @@ class PreparedNode:
             width += 10
         return max([width, *[c.max_width for c in self.children]])
 
-    def output(self, columns: int) -> list[OutputLine]:
+    def output(self, columns: int) -> List[OutputLine]:
         line = self.col1.clone().truncate(columns)
         lines = [line]
 
@@ -259,8 +260,8 @@ class Tree:
         path: str,
         count_dirs: bool = False,
         show_sizes: bool = False,
-        max_depth: int | None = None,
-        min_filecount: int | None = None,
+        max_depth: Optional[int] = None,
+        min_filecount: Optional[int] = None,
         color: bool = True,
         sort_by: SortBy = SortBy.NAME,
         reverse: bool = False,
@@ -299,8 +300,8 @@ class Tree:
         if hasattr(self, "_root"):
             return self._root
 
-        nodes: "dict[str, Node]" = {}
-        seen_inodes: list[int] = []
+        nodes: "Dict[str, Node]" = {}
+        seen_inodes: List[int] = []
 
         for root, dirs, files, root_fd in os.fwalk(self.path, follow_symlinks=self.symlinks):
             if not self.hidden:
