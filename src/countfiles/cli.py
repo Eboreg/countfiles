@@ -2,7 +2,8 @@ import argparse
 import sys
 
 from countfiles import __version__
-from countfiles.node import SortBy, Tree
+from countfiles.tree import Tree
+from countfiles.utils import SortBy
 
 
 class HelpFormatter(argparse.HelpFormatter):
